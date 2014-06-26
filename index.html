@@ -2,12 +2,79 @@
 <html>
 	<head>
 		<title></title>
+		<style>
+
+			@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+			h1 {
+				font-family: 'Roboto', sans-serif;
+				text-align:center;
+				font-size:4em;
+			}
+			.container {
+				min-width:480px;
+				max-width:60%;
+				padding:10px;
+				margin:0 auto 0 auto;
+			}
+			.post {
+				width:100%;
+			}
+			.photo {
+				width:100%;
+			}
+		</style>
 	</head>
 	<body>
 
 
-
+	<div class="container"></div>
 
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
+	<script type="text/javascript" src="js/miso.js"></script>
+	<script type="text/x-handlebars-template" id="post-template">
+
+		<div class="post">
+			<h1>{{ newsroom }}</h1>
+			<img src="img/{{ img }}" class="photo">
+		</div>
+
+	</script>
+	<script type="text/javascript">
+
+
+	var ds = new Miso.Dataset({
+		url: "newsrooms.csv",
+		delimiter: ","
+	});
+
+	ds.fetch({
+		success: function() {
+
+			var data = this._columns;
+
+			// array
+			var newsroom = this._columns[1].data;
+
+			var photo = this._columns[2].data;
+
+			// handlebars
+			var source = $("#post-template").html();
+			var template = Handlebars.compile(source);
+
+			for (var i = 0; i < newsroom.length; i++) {
+
+				$(".container").append(template({
+					"newsroom": newsroom[i],
+					"img": photo[i]
+				}));
+
+			}
+
+		}
+	});
+
+	</script>
 	</body>
 </html>
