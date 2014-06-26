@@ -37,7 +37,9 @@
 
 		<div class="post">
 			<h1>{{ newsroom }}</h1>
-			<img src="img/{{ img }}" class="photo">
+			<a target="_blank" href="{{ url }}">
+				<img src="img/{{ img }}" class="photo">
+			</a>
 		</div>
 
 	</script>
@@ -59,6 +61,8 @@
 
 			var photo = this._columns[2].data;
 
+			var url = this._columns[3].data;
+
 			// handlebars
 			var source = $("#post-template").html();
 			var template = Handlebars.compile(source);
@@ -67,7 +71,8 @@
 
 				$(".container").append(template({
 					"newsroom": newsroom[i],
-					"img": photo[i]
+					"img": photo[i],
+					"url": url[i]
 				}));
 
 			}
